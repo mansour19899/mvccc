@@ -1,0 +1,104 @@
+﻿<h6>mansour</h6>
+
+
+<script src="~/Scripts/alertify.js"></script>
+<link href="~/Content/alertifyjs/alertify.min.css" rel="stylesheet" />
+<link href="~/Content/alertifyjs/themes/default.min.css" rel="stylesheet" />
+@*<link href="~/Content/alertifyjs/themes/bootstrap.min.css" rel="stylesheet" />*@
+<link href="~/Content/alertifyjs/themes/alertify.default.css" rel="stylesheet" />
+
+@*<script type="text/javascript">
+    //override defaults
+    alertify.defaults.transition = "slide";
+    alertify.defaults.theme.ok = "btn btn-primary";
+    alertify.defaults.theme.cancel = "btn btn-danger";
+    alertify.defaults.theme.input = "form-control";
+</script>*@
+
+
+<form id="loginForm" style="visibility:hidden">
+    <fieldset>
+        <label> Username </label>
+        <input type="text" value="Mohammad" />
+
+        <label> Password </label>
+        <input type="password" value="password" />
+
+        <input type="submit" value="Login" />
+    </fieldset>
+</form>
+
+<a href="#" id="notification">Standard Log</a><br>
+<a href="#" id="success">Success Log</a><br>
+<a href="#" id="error">Error Log</a><br>
+<a href="#" id="custom">Custom Log</a><br>
+<a href="#" id="delay">Hide in 10 seconds</a><br>
+<a href="#" id="forever">Persistent Log</a>
+
+@*<script src="https://code.jquery.com/jquery-1.9.1.js"></script>*@
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+
+<script> $("#notification").on('click', function () {
+        
+    
+        
+        alertify.set('notifier','position', 'top-right');
+        alertify.success('Current position : ' + alertify.get('notifier','position'));
+        return false;
+    });
+    $("#success").on('click', function () {
+        //reset();
+        alertify.success("Success log message");
+        setTimeout(function () {$(location).attr('href', 'Index');}, 3000);
+        return false;
+    });
+    $("#error").on('click', function () {
+           
+        //alertify.error("Error log message");
+        alertify.success('Current position : ' + alertify.get('notifier', 'position'));
+        return false;
+    });
+    $("#delay").on('click', function () {
+            
+        $("#loginForm").css("visibility","visible");
+        alertify.genericDialog || alertify.dialog('genericDialog',function(){
+            return {
+                main:function(content){
+                    this.setContent(content);
+                },
+                setup:function(){
+                    return {
+                        focus:{
+                            element:function(){
+                                return this.elements.body.querySelector(this.get('selector'));
+                            },
+                            select:true
+                        },
+                        options:{
+                            basic:true,
+                            maximizable:false,
+                            resizable:false,
+                            padding:false
+                        }
+                    };
+                },
+                settings:{
+                    selector:undefined
+                }
+            };
+        });
+//force focusing password box
+        alertify.genericDialog ($('#loginForm')[0]).set('selector', 'input[type="password"]');
+        return false;
+    });
+    $("#forever").on('click', function () {
+           
+        var delay = alertify.get('notifier','delay');
+        alertify.set('notifier','delay',60);
+        alertify.success('Current delay : ' + alertify.get('notifier','delay') + ' seconds');
+        alertify.set('notifier','delay', delay);
+        
+
+        return false;
+    });</script>
+<link href="~/Content/alertifyjs/smm/custom1.css" rel="stylesheet" />
